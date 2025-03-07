@@ -8,19 +8,21 @@ import { Question, QuestionType } from "./interfaces/question";
 export function makeBlankQuestion(
     id: number,
     name: string,
-    type: QuestionType,
+    type: QuestionType
 ): Question {
     return {
-        id,
-        name,
-        type,
+        id: id,
+        name: name,
+        type: type,
         body: "",
         expected: "",
         options: [],
         points: 1,
-        published: false,
+        published: false
     };
 }
+
+
 /**
  * Consumes a question and a potential `answer`, and returns whether or not
  * the `answer` is correct. You should check that the `answer` is equal to
@@ -29,10 +31,9 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    return (
-        answer.trim().toLowerCase() === question.expected.trim().toLowerCase()
-    );
+    return answer.trim().toLowerCase() === question.expected.trim().toLowerCase();
 }
+
 
 /**
  * Consumes a question and a potential `answer`, and returns whether or not
@@ -41,10 +42,11 @@ export function isCorrect(question: Question, answer: string): boolean {
  * be exactly one of the options.
  */
 export function isValid(question: Question, answer: string): boolean {
-    return question.type === "short_answer_question" ?
-            true
-        :   question.options.includes(answer);
+    return question.type === "short_answer_question"
+        ? true
+        : question.options.includes(answer);
 }
+
 
 /**
  * Consumes a question and produces a string representation combining the
@@ -55,6 +57,7 @@ export function isValid(question: Question, answer: string): boolean {
 export function toShortForm(question: Question): string {
     return `${question.id}: ${question.name.substring(0, 10)}`;
 }
+
 
 /**
  * Consumes a question and returns a formatted string representation as follows:
@@ -74,27 +77,24 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    let markdown = `# ${question.name}\n${question.body}`;
-
-    if (question.type === "multiple_choice_question") {
-        question.options.forEach((option) => {
-            markdown += `\n- ${option}`;
-        });
-    }
-
-    return markdown;
+    const header = `# ${question.name}`;
+    const body = question.body;
+    const options = question.type === "multiple_choice_question"
+        ? question.options.map(option => `- ${option}`).join("\n")
+        : "";
+    
+    return options ? `${header}\n${body}\n${options}` : `${header}\n${body}`;
 }
+
 
 /**
  * Return a new version of the given question, except the name should now be
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    return {
-        ...question,
-        name: newName,
-    };
+    return { ...question, name: newName };
 }
+
 
 /**
  * Return a new version of the given question, except the `published` field
@@ -102,11 +102,9 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    return {
-        ...question,
-        published: !question.published,
-    };
+    return { ...question, published: !question.published };
 }
+
 
 /**
  * Create a new question based on the old question, copying over its `body`, `type`,
@@ -116,12 +114,17 @@ export function publishQuestion(question: Question): Question {
  */
 export function duplicateQuestion(id: number, oldQuestion: Question): Question {
     return {
-        ...oldQuestion,
-        id: id,
+        id,
         name: `Copy of ${oldQuestion.name}`,
-        published: false,
+        body: oldQuestion.body,
+        type: oldQuestion.type,
+        options: oldQuestion.options,
+        expected: oldQuestion.expected,
+        points: oldQuestion.points,
+        published: false
     };
 }
+
 /**
  * Return a new version of the given question, with the `newOption` added to
  * the list of existing `options`. Remember that the new Question MUST have
@@ -131,10 +134,11 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  */
 export function addOption(question: Question, newOption: string): Question {
     return {
-        ...question,
-        options: [...question.options, newOption],
+        ...question, 
+        options: [...question.options, newOption]
     };
 }
+
 
 /**
  * Consumes an id, name, and two questions, and produces a new question.
@@ -148,13 +152,17 @@ export function mergeQuestion(
     id: number,
     name: string,
     contentQuestion: Question,
-    { points }: { points: number },
+    { points }: { points: number }
 ): Question {
     return {
-        ...contentQuestion,
         id,
         name,
-        points,
-        published: false,
+        body: contentQuestion.body,
+        type: contentQuestion.type,
+        options: contentQuestion.options,
+        expected: contentQuestion.expected,
+        points, 
+        published: false 
     };
 }
+

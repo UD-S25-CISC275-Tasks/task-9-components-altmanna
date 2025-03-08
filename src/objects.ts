@@ -147,7 +147,7 @@ export function addOption(question: Question, newOption: string): Question {
  * The `published` status should be set to false.
  * Notice that the second Question is provided as just an object with a `points`
  * field; but the function call would be the same as if it were a `Question` type!
- */
+ */1
 export function mergeQuestion(
     id: number,
     name: string,

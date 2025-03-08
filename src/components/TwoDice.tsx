@@ -12,9 +12,7 @@ export function d6(): number {
 }
 
 /**
- * I could not get this components test to stop running because I had to use
- * a while loop in the TwoDice function. I asked AI how to fix this and it
- * recommended using a helper function to handle the die.
+ * Helper function to help prevent endless loop
  */
 function getDifferentRoll(exclude: number): number {
     let newRoll = d6();
@@ -68,3 +66,5 @@ export function TwoDice(): React.JSX.Element {
         </div>
     );
 }
+
+

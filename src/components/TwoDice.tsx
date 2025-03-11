@@ -12,7 +12,7 @@ export function d6(): number {
 }
 
 /**
- * Helper function to help prevent endless loop
+ * Helper function needed to help prevent endless loop
  */
 function getDifferentRoll(exclude: number): number {
     let newRoll = d6();

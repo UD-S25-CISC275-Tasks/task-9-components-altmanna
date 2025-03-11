@@ -66,5 +66,3 @@ export function TwoDice(): React.JSX.Element {
         </div>
     );
 }
-
-

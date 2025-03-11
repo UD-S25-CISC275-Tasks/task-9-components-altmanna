@@ -8,7 +8,7 @@ import { Question, QuestionType } from "./interfaces/question";
 export function makeBlankQuestion(
     id: number,
     name: string,
-    type: QuestionType
+    type: QuestionType,
 ): Question {
     return {
         id: id,
@@ -18,10 +18,9 @@ export function makeBlankQuestion(
         expected: "",
         options: [],
         points: 1,
-        published: false
+        published: false,
     };
 }
-
 
 /**
  * Consumes a question and a potential `answer`, and returns whether or not
@@ -31,9 +30,10 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    return answer.trim().toLowerCase() === question.expected.trim().toLowerCase();
+    return (
+        answer.trim().toLowerCase() === question.expected.trim().toLowerCase()
+    );
 }
-
 
 /**
  * Consumes a question and a potential `answer`, and returns whether or not
@@ -42,11 +42,10 @@ export function isCorrect(question: Question, answer: string): boolean {
  * be exactly one of the options.
  */
 export function isValid(question: Question, answer: string): boolean {
-    return question.type === "short_answer_question"
-        ? true
-        : question.options.includes(answer);
+    return question.type === "short_answer_question" ?
+            true
+        :   question.options.includes(answer);
 }
-
 
 /**
  * Consumes a question and produces a string representation combining the
@@ -57,7 +56,6 @@ export function isValid(question: Question, answer: string): boolean {
 export function toShortForm(question: Question): string {
     return `${question.id}: ${question.name.substring(0, 10)}`;
 }
-
 
 /**
  * Consumes a question and returns a formatted string representation as follows:
@@ -79,13 +77,13 @@ export function toShortForm(question: Question): string {
 export function toMarkdown(question: Question): string {
     const header = `# ${question.name}`;
     const body = question.body;
-    const options = question.type === "multiple_choice_question"
-        ? question.options.map(option => `- ${option}`).join("\n")
-        : "";
-    
+    const options =
+        question.type === "multiple_choice_question" ?
+            question.options.map((option) => `- ${option}`).join("\n")
+        :   "";
+
     return options ? `${header}\n${body}\n${options}` : `${header}\n${body}`;
 }
-
 
 /**
  * Return a new version of the given question, except the name should now be
@@ -95,7 +93,6 @@ export function renameQuestion(question: Question, newName: string): Question {
     return { ...question, name: newName };
 }
 
-
 /**
  * Return a new version of the given question, except the `published` field
  * should be inverted. If the question was not published, now it should be
@@ -104,7 +101,6 @@ export function renameQuestion(question: Question, newName: string): Question {
 export function publishQuestion(question: Question): Question {
     return { ...question, published: !question.published };
 }
-
 
 /**
  * Create a new question based on the old question, copying over its `body`, `type`,
@@ -121,7 +117,7 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
         options: oldQuestion.options,
         expected: oldQuestion.expected,
         points: oldQuestion.points,
-        published: false
+        published: false,
     };
 }
 
@@ -134,11 +130,10 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  */
 export function addOption(question: Question, newOption: string): Question {
     return {
-        ...question, 
-        options: [...question.options, newOption]
+        ...question,
+        options: [...question.options, newOption],
     };
 }
-
 
 /**
  * Consumes an id, name, and two questions, and produces a new question.
@@ -147,12 +142,12 @@ export function addOption(question: Question, newOption: string): Question {
  * The `published` status should be set to false.
  * Notice that the second Question is provided as just an object with a `points`
  * field; but the function call would be the same as if it were a `Question` type!
- */1
+ */ 1;
 export function mergeQuestion(
     id: number,
     name: string,
     contentQuestion: Question,
-    { points }: { points: number }
+    { points }: { points: number },
 ): Question {
     return {
         id,
@@ -161,8 +156,7 @@ export function mergeQuestion(
         type: contentQuestion.type,
         options: contentQuestion.options,
         expected: contentQuestion.expected,
-        points, 
-        published: false 
+        points,
+        published: false,
     };
 }
-
